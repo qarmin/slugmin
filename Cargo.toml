@@ -1,16 +1,17 @@
 [package]
-name = "slug"
+name = "slugmin"
 keywords = ["slugify", "slug", "id"]
-version = "0.1.4"
-authors = ["Steven Allen <steven@stebalien.com>"]
+version = "1.0.0"
+authors = ["Rafał Mikrut <mikrutrafal@protonmail.com>"]
+edition = "2018"
 
-description = "Convert a unicode string to a slug"
+description = "Slug version which allows to use spaces and big letters."
 license = "MIT/Apache-2.0"
 readme = "README.md"
 
-repository = "https://github.com/Stebalien/slug-rs"
-homepage = "https://github.com/Stebalien/slug-rs"
-documentation = "https://docs.rs/slug"
+repository = "https://github.com/qarmin/slugmin"
+homepage = "https://github.com/qarmin/slugmin"
+documentation = "https://docs.rs/slugmin"
 
 [dependencies]
 deunicode = "1"

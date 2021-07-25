@@ -1,14 +1,15 @@
-# slug
+# slugmin
 A small library for generating [slugs][wikipedia] from unicode strings.
 
-Documentation: https://docs.rs/slug
+This is forked version of [slug-rs](https://github.com/Stebalien/slug-rs) adapted to needs of [Szyszka](https://github.com/qarmin/szyszka) app.
+
+Documentation: https://docs.rs/slugmin
 
 [wikipedia]: https://en.wikipedia.org/wiki/Semantic_URL#Slug
 
 ## Usage
 ```rust
-extern crate slug;
-use slug::slugify;
+use slugmin::slugify;
 
-let slug = slugify("Hello world");
+let slug = slugify("Hello world",false);
 ```

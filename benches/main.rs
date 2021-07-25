@@ -1,6 +1,8 @@
 #![feature(test)]
-extern crate slug;
+extern crate slugmin;
 extern crate test;
+
+use slugmin::slugify;
 
 #[bench]
 fn bench_slug(b: &mut test::Bencher) {
