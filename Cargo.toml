@@ -1,7 +1,7 @@
 [package]
 name = "slugmin"
 keywords = ["slugify", "slug", "id"]
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Rafał Mikrut <mikrutrafal@protonmail.com>"]
 edition = "2018"
 

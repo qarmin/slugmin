@@ -73,7 +73,7 @@ fn _slugify(s: &str) -> String {
 /// In opposite to upper implementation, it removes also redundant whitespaces
 /// Allows also to not change size of letters
 ///
-/// The returned "slug" will consist of a-z, A-Z, 0-9, '-', ' '. Furthermore, a slug will
+/// The returned "slug" will consist of a-z, A-Z, 0-9, '-', ' ', '.', '_'. Furthermore, a slug will
 /// never contain more than one '-' in a row and will never start or end with '-'.
 ///
 /// ```rust
@@ -81,10 +81,10 @@ fn _slugify(s: &str) -> String {
 ///
 /// assert_eq!(slugify_normal("My Test String!!!1!1",false), "my test string-1-1");
 /// assert_eq!(slugify_normal("test\nit   now!",false), "test-it now");
-/// assert_eq!(slugify_normal("  --test_-_cool",false), "test-cool");
+/// assert_eq!(slugify_normal("  --test_-_cool",false), "test_-_cool");
 /// assert_eq!(slugify_normal("Æúű--cool?",false), "aeuu-cool");
 /// assert_eq!(slugify_normal("You & Me",false), "you - me");
-/// assert_eq!(slugify_normal("      user@example.com",false), "user-example-com");
+/// assert_eq!(slugify_normal("      user@example.com",false), "user-example.com");
 /// assert_eq!(slugify_normal("RWR - - - - - - -",true), "RWR");
 /// ```
 pub fn slugify_normal<S: AsRef<str>>(s: S, leave_size : bool) -> String {
@@ -116,9 +116,9 @@ fn _slugify_normal(s: &str, leave_size : bool) -> String {
                         slug.push(x - b'A' + b'a');
                     }
                 }
-                b' ' => {
+                b' ' | b'.' | b'_' => {
                     if !empty_space_was {
-                        slug.push(b' ');
+                        slug.push(x);
                         empty_space_was = true;
                         prev_is_dash = false;
                     }
