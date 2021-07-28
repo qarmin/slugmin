@@ -86,6 +86,10 @@ fn _slugify(s: &str) -> String {
 /// assert_eq!(slugify_normal("You & Me",false), "you - me");
 /// assert_eq!(slugify_normal("      user@example.com",false), "user-example.com");
 /// assert_eq!(slugify_normal("RWR - - - - - - -",true), "RWR");
+/// assert_eq!(slugify_normal(".Pliczek",true), ".Pliczek");
+/// assert_eq!(slugify_normal("roman .txt",true), "roman .txt");
+/// assert_eq!(slugify_normal("roman. txt",true), "roman. txt");
+/// assert_eq!(slugify_normal("roman.  txt",true), "roman. txt");
 /// ```
 pub fn slugify_normal<S: AsRef<str>>(s: S, leave_size : bool) -> String {
     _slugify_normal(s.as_ref(),leave_size)
@@ -97,16 +101,19 @@ fn _slugify_normal(s: &str, leave_size : bool) -> String {
     // Starts with true to avoid leading -
     let mut prev_is_dash = true;
     let mut empty_space_was = true;
+    let mut dot_was_before = false;
     {
         let mut push_char = |x: u8| {
             match x {
                 b'a'..=b'z' | b'0'..=b'9' => {
                     prev_is_dash = false;
+                    dot_was_before = false;
                     empty_space_was = false;
                     slug.push(x);
                 }
                 b'A'..=b'Z' => {
                     prev_is_dash = false;
+                    dot_was_before = false;
                     empty_space_was = false;
                     if leave_size {
                         slug.push(x);
@@ -116,17 +123,27 @@ fn _slugify_normal(s: &str, leave_size : bool) -> String {
                         slug.push(x - b'A' + b'a');
                     }
                 }
-                b' ' | b'.' | b'_' => {
+                b' ' | b'_' => {
                     if !empty_space_was {
                         slug.push(x);
-                        empty_space_was = true;
                         prev_is_dash = false;
+                        dot_was_before = false;
+                        empty_space_was = true;
+                    }
+                }
+                b'.' => {
+                    if !dot_was_before  {
+                        slug.push(x);
+                        prev_is_dash = false;
+                        dot_was_before = true;
+                        empty_space_was = false;
                     }
                 }
                 _ => {
                     if !prev_is_dash {
                         slug.push(b'-');
                         prev_is_dash = true;
+                        dot_was_before = false;
                         empty_space_was = false;
                     }
                 }
